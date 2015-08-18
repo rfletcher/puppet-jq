@@ -69,15 +69,16 @@ class jq (
   file { $binary_path:
     ensure => $ensure,
     mode   => '0755',
-  } ->
+  }
 
   $path_ensure = $ensure ? {
     absent  => $ensure,
     default => link
-  },
+  }
 
   file { "${path}/jq":
-    ensure => $path_ensure,
-    target => $binary_path,
+    ensure  => $path_ensure,
+    target  => $binary_path,
+    require => File[$binary_path],
   }
 }
