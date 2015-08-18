@@ -1,7 +1,0 @@
-name         'rfletcher-jq'
-version      '0.0.2'
-license      'MIT License'
-summary      'A puppet module for jq'
-description  'Install or remove jq'
-project_page 'https://github.com/rfletcher/puppet-jq'
-dependency   'maestrodev/wget', '>= 1.4.0'

@@ -61,13 +61,23 @@ class jq (
     }
   }
 
+  $present_ensure = $ensure ? {
+    absent  => $ensure,
+    default => present
+  }
+
   file { $binary_path:
-    ensure => $ensure ? { absent => $ensure, default => present },
+    ensure => $ensure,
     mode   => '0755',
   } ->
 
+  $path_ensure = $ensure ? {
+    absent  => $ensure,
+    default => link
+  },
+
   file { "${path}/jq":
-    ensure => $ensure ? { absent => $ensure, default => link },
+    ensure => $path_ensure,
     target => $binary_path,
   }
 }
