@@ -13,6 +13,9 @@
 # [*source*]
 #   The URL of the jq binary
 #
+# [*path*]
+#   The location where jq should be installed
+#
 # === Examples
 #
 #  include jq
@@ -29,6 +32,7 @@ class jq (
   $ensure = present,
   $latest = '1.4',
   $source = undef,
+  $path   = '/usr/bin'
 ) {
   $version = $ensure ? {
     present => $latest,
@@ -43,7 +47,7 @@ class jq (
     $url = "http://stedolan.github.io/jq/download/linux64/jq-${version}/jq"
   }
 
-  $binary_path = "/usr/local/bin/jq-${version}"
+  $binary_path = "${path}/jq-${version}"
 
   if $ensure != 'absent' {
     $real_source = $source ? { undef => $url, default => $source }
@@ -57,13 +61,24 @@ class jq (
     }
   }
 
-  file { $binary_path:
-    ensure => $ensure ? { absent => $ensure, default => present },
-    mode   => '0755',
-  } ->
+  $present_ensure = $ensure ? {
+    absent  => $ensure,
+    default => present
+  }
 
-  file { '/usr/local/bin/jq':
-    ensure => $ensure ? { absent => $ensure, default => link },
-    target => $binary_path,
+  file { $binary_path:
+    ensure => $ensure,
+    mode   => '0755',
+  }
+
+  $path_ensure = $ensure ? {
+    absent  => $ensure,
+    default => link
+  }
+
+  file { "${path}/jq":
+    ensure  => $path_ensure,
+    target  => $binary_path,
+    require => File[$binary_path],
   }
 }

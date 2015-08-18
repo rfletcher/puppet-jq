@@ -1,0 +1,19 @@
+{
+  "name": "rfletcher-jq",
+  "version": "0.0.2",
+  "author": "Rick Fletcher",
+  "license": "MIT",
+  "summary": "Installs jq",
+  "source": "https://github.com/rfletcher/puppet-jq",
+  "project_page": "https://github.com/rfletcher/puppet-jq",
+  "tags": ["jq"],
+  "operatingsystem_support": [
+    {
+    "operatingsystem":"RedHat",
+    "operatingsystemrelease":[ "6.0", "7.0" ]
+    }
+   ],
+  "dependencies": [
+    { "name": "maestrodev/wget", "version_requirement": ">=1.4.0" }
+  ]
+}
