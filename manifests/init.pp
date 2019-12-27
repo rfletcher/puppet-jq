@@ -37,10 +37,10 @@ class jq (
     default => $ensure,
   }
 
-  if $ensure == present or $ensure == $latest {
-    $url = 'http://stedolan.github.io/jq/download/linux64/jq'
-  } else {
-    $url = "http://stedolan.github.io/jq/download/linux64/jq-${version}/jq"
+  if versioncmp("$version", '1.4') > 0 {
+    $url = "https://github.com/stedolan/jq/releases/download/jq-${version}/jq-linux64"
+  }else{
+    $url = "https://github.com/stedolan/jq/releases/download/jq-${version}/jq-linux-x86_64"
   }
 
   $binary_path = "/usr/local/bin/jq-${version}"
